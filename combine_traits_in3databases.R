@@ -3,7 +3,7 @@ rm(list=ls())
 
 ###################### TRY ######################
 # read data: TRY
-setwd("D:/RECODYN_Pro/哈维性状/TRY database/31423_27022024092721")
+setwd("D:/RECODYN_Pro/TRY database/31423_27022024092721")
 try.mean.sp <- read.csv("mean_traits_species.csv") # mean value of each species
 #try.ind <- read.csv("indi.trait_longform.csv") # long form data with individuals
 colnames(try.mean.sp)
