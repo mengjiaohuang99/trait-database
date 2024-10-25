@@ -1,5 +1,5 @@
 library(tidyverse)
-GRooTFullVersion <- read.csv("D:/RECODYN_Pro/哈维性状/GRooT database/GRooTFullVersion.csv", header = T, na.strings = c("", "NA"))
+GRooTFullVersion <- read.csv("D:/RECODYN_Pro/GRooT database/GRooTFullVersion.csv", header = T, na.strings = c("", "NA"))
 colnames(GRooTFullVersion)
 unique(GRooTFullVersion$traitName)
 
