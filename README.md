@@ -5,3 +5,5 @@ The codes aim to get trait data of the species in Arkaute from 3 database (TRY,B
 Please run 'rtry_3.6.R' and 'GrooT.R' first to get trait values of each species (rtry) and each individual (GRooT) respectively, then 'combine_traits_in3databases.R'. 
 
 Note that outliers need to be checked!!!
+
+

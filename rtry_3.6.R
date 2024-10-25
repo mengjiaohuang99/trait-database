@@ -3,7 +3,7 @@ library(rtry)
 library(tidyverse)
 
 
-setwd("D:/RECODYN_Pro/哈维性状/TRY database/31423_27022024092721")
+setwd("D:/RECODYN_Pro/TRY database/31423_27022024092721")
 getwd()
 
 #import TRY data
