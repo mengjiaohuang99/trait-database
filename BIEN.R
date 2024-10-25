@@ -32,12 +32,12 @@ trait_vector <- c('leaf area', 'leaf area per leaf dry mass', 'leaf dry mass per
                   'maximum whole plant height', 'whole plant height')
 
 trait_bien_select = trait_bien %>% dplyr::filter(trait_name %in% trait_vector)
-#write.csv(trait_bien_select, "trait_bien_select.csv", row.names = F)
+write.csv(trait_bien_select, "trait_bien_select.csv", row.names = F)
 
 #check unit: the unit are unified
 table(trait_bien_select$trait_name, trait_bien_select$unit)
 
-# check outliers
+######################## check outliers ####################
 trait_bien_select$trait_value <- as.numeric(trait_bien_select$trait_value)
 t1 = trait_bien_select %>% dplyr::filter(trait_name == 'whole plant height')
 t1_sp <- sort(unique(t1$scrubbed_species_binomial))[26:49]

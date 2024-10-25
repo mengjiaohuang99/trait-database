@@ -26,5 +26,5 @@ GRooT_3_select = GRooT_3_species %>% filter(speciesname %in% c('Anacamptis pyram
 sort(unique(GRooT_3_select$speciesname))
 table(GRooT_3_select$traitName, GRooT_3_select$speciesname)
 
-write.csv(GRooT_3_select, "GrooT selected 3 root traits.csv", row.names = F)
+write.csv(GRooT_3_select, "GrooT_selected_3roottraits.csv", row.names = F)
 
