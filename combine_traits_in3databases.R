@@ -3,7 +3,7 @@ rm(list=ls())
 
 ###################### TRY ######################
 # read data: TRY
-setwd("D:/RECODYN_Pro/TRY database/31423_27022024092721")
+setwd("D:/RECODYN_Pro/哈维性状/TRY database/31423_27022024092721")
 try.mean.sp <- read.csv("mean_traits_species.csv") # mean value of each species
 #try.ind <- read.csv("indi.trait_longform.csv") # long form data with individuals
 colnames(try.mean.sp)
@@ -46,7 +46,7 @@ try.mean.sp_select1 <- try.mean.sp_select[, c(2:10, 22:23)]
 setwd("D:/RECODYN_Pro/哈维性状")
 bien.ind <- read.csv("trait_bien_select.csv")
 
-# mean trait value of each speceis
+# mean trait value of each species
 bien.mean.sp = bien.ind %>% group_by(trait_name, scrubbed_species_binomial) %>% summarise(mean.trait = mean (trait_value, na.rm = T))
 
 #long to wide 
@@ -57,12 +57,12 @@ bien.mean.sp.rename = bien.mean.sp.wide %>% rename(leafN.bien = `leaf nitrogen c
                                                    SLA.bien = `leaf area per leaf dry mass`, LA.bien = `leaf area`,
                                                    LDMC.bien = `leaf dry mass per leaf fresh mass`, species = scrubbed_species_binomial)
 
-#keep the species name the same
-#change 'Draba verna' to 'Erophila verna'; chagne 'CAPSELLA BURSA-PASTORIS' to 'Capsella bursa-pastoris'    
+#keep the species names the same
+#change 'Draba verna' to 'Erophila verna'; change 'CAPSELLA BURSA-PASTORIS' to 'Capsella bursa-pastoris'    
 try.mean.sp_select1$species[try.mean.sp_select1$species == "Draba verna"] <- "Erophila verna"   
 try.mean.sp_select1$species[try.mean.sp_select1$species == "CAPSELLA BURSA-PASTORIS"] <- "Capsella bursa-pastoris" 
 
-#merge datafram from TRY and BIEN
+#merge dataframe of TRY and BIEN
 combine1 = full_join(try.mean.sp_select1, bien.mean.sp.rename, by = 'species')
 
 # check unit to be the same; ONLY LDMC are different
@@ -81,13 +81,14 @@ combine1$seed.mass <- coalesce(combine1$seed.mass, combine1$seed.mass.bien)
 # GRooT
 setwd("D:/RECODYN_Pro/哈维性状/GRooT database")
 groot.ind <- read.csv("GrooT_selected_3roottraits.csv")
-colnames(t.groot.ind)
+colnames(groot.ind)
 
-# mean trait value of each speceis
+# mean trait value of each species
 groot.mean.sp = groot.ind %>% group_by(traitName, speciesname) %>% summarise(mean.trait = mean(traitValue, na.rm = T))
 
 #long to wide 
 groot.mean.sp.wide = groot.mean.sp %>% spread(traitName, mean.trait)
+
 #keep the species name the same as combine1; 
 #change "Lysimachia arvensis" to "Anagallis arvensis" (But no this species)
 groot.mean.sp.wide$speciesname[groot.mean.sp.wide$speciesname == "Lysimachia arvensis"] <- "Anagallis arvensis" 
@@ -96,7 +97,7 @@ groot.mean.sp.wide$speciesname[groot.mean.sp.wide$speciesname == "Lysimachia arv
 groot.mean.sp.rename = groot.mean.sp.wide %>% rename(species = speciesname,  rootN.groot = Root_N_concentration, 
                                                      RTD.groot  = Root_tissue_density, SRL.groot  = Specific_root_length)
 
-#merge datafram from GRooTand combine1
+#merge dataframe from GRooT to combine1
 combine2 = full_join(groot.mean.sp.rename, combine1, by = 'species')
 
 #check unit; SRL in GRooT is m/g, in TRY is cm/g. convert cm/g to m/g
