@@ -40,7 +40,9 @@ try.mean.sp_select$LA <- coalesce(try.mean.sp_select$LA, try.mean.sp_select$LA.u
 try.mean.sp_select$SLA <- coalesce(try.mean.sp_select$SLA.inc, try.mean.sp_select$SLA.ex)
 
 #select trait again
-try.mean.sp_select1 <- try.mean.sp_select[, c(2:10, 22:23)]
+# try.mean.sp_select1 <- try.mean.sp_select[, c(2:10, 22:23)]
+try.mean.sp_select1 = try.mean.sp_select %>%select(species, leafN, rootN, RTD, seed.mass, LDMC, 
+                                                   vegetation.height, SSD, SRL, LA, SLA)
 
 ###################### BIEN ######################
 setwd("D:/RECODYN_Pro/哈维性状")
