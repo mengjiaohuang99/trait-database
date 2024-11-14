@@ -2,9 +2,7 @@
 library(rtry)
 library(tidyverse)
 
-
-setwd("D:/RECODYN_Pro/TRY database/31423_27022024092721")
-getwd()
+setwd("D:/RECODYN_Pro/哈维性状/TRY database/31423_27022024092721")
 
 #import TRY data
 
@@ -28,7 +26,6 @@ View(TRYdata1_explore_species)
 # and sort the output by TraitID using the sortBy argument, to see if there are similar data in each trait.
 TRYdata1_explore_anc <- rtry_explore(TRYdata1, DataID, DataName, TraitID, TraitName, sortBy = TraitID)
 View(TRYdata1_explore_anc)
-
 
 #Select columns
 workdata <- rtry_remove_col(TRYdata1, V29)
@@ -174,18 +171,20 @@ workdata <- rtry_remove_dup(workdata)
 num_traits <- rtry_select_row(workdata, complete.cases(TraitID) & complete.cases(StdValue))
 num_traits <- rtry_select_col(num_traits, ObservationID, AccSpeciesID, AccSpeciesName, TraitID, TraitName, StdValue, UnitName)
 
-#write.csv(num_traits, "indi.trait_longform.csv", row.names = F)
+# individual trait values
+write.csv(num_traits, "indi.trait_longform.csv", row.names = F)
 
 #check unit
 table(num_traits$TraitName, num_traits$UnitName)
-#checkoutliers
-t1 = num_traits %>% dplyr::filter(TraitName == 'Leaf area (in case of compound leaves undefined if leaf or leaflet, undefined if petiole is in- or excluded)')
-t1_sp <- sort(unique(t1$AccSpeciesName))[26:49]
-t2 = t1 %>% filter(AccSpeciesName %in% t1_sp )
 
-ggplot(t2, aes(x = trait_value)) +
-  geom_histogram() +
-  facet_wrap(~ scrubbed_species_binomial)
+#checkoutliers
+# t1 = num_traits %>% dplyr::filter(TraitName == 'Leaf area (in case of compound leaves undefined if leaf or leaflet, undefined if petiole is in- or excluded)')
+# t1_sp <- sort(unique(t1$AccSpeciesName))[26:49]
+# t2 = t1 %>% filter(AccSpeciesName %in% t1_sp )
+# 
+# ggplot(t2, aes(x = trait_value)) +
+#   geom_histogram() +
+#   facet_wrap(~ scrubbed_species_binomial)
 
 
 # Extract the unique value of latitude (DataID 59) and longitude (DataID 60) together with the corresponding ObservationID
@@ -197,8 +196,9 @@ ggplot(t2, aes(x = trait_value)) +
 
 # Perform wide table transformation on TraitID, TraitName and UnitName
 # With cell values to be the mean values calculated for StdValue
-num_traits_georef_wider <- rtry_trans_wider(num_traits, names_from = c(TraitID, TraitName, UnitName), 
+num_traits_georef_wider <- rtry_trans_wider(num_traits, names_from = c(TraitID, TraitName, UnitName),
                                             values_from = c(StdValue), values_fn = list(StdValue = mean))
+
 
 #11 Export preprocessed TRY data
 # Export the data into a CSV file
