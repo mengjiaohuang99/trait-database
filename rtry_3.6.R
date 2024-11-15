@@ -171,8 +171,8 @@ workdata <- rtry_remove_dup(workdata)
 num_traits <- rtry_select_row(workdata, complete.cases(TraitID) & complete.cases(StdValue))
 num_traits <- rtry_select_col(num_traits, ObservationID, AccSpeciesID, AccSpeciesName, TraitID, TraitName, StdValue, UnitName)
 
-# individual trait values
-write.csv(num_traits, "indi.trait_longform.csv", row.names = F)
+# individual trait values; not this one: it has repeat data
+# write.csv(num_traits, "indi.trait_longform.csv", row.names = F)
 
 #check unit
 table(num_traits$TraitName, num_traits$UnitName)
@@ -200,12 +200,19 @@ num_traits_georef_wider <- rtry_trans_wider(num_traits, names_from = c(TraitID, 
                                             values_from = c(StdValue), values_fn = list(StdValue = mean))
 
 
+# wide to long
+num_traits_georef_long <- num_traits_georef_wider %>%
+  pivot_longer(cols = "14_Leaf nitrogen (N) content per leaf dry mass_mg/g":"3086_Leaf area per leaf dry mass (specific leaf area, SLA or 1/LMA) petiole, rhachis and midrib excluded_mm2 mg-1", 
+               names_to = "TraitName", values_to = "StdValue") %>% drop_na(StdValue)
+
+write.csv(num_traits_georef_long, "indi.trait_longform.csv", row.names = F)
+
 #11 Export preprocessed TRY data
 # Export the data into a CSV file
 #rtry_export(num_traits_georef_wider, "workdata_wider_traits.csv")
 
 #group by species
-mean_traits_species = num_traits_georef_wider %>% group_by(AccSpeciesID, AccSpeciesName) %>% summarise_at(2:21, mean , na.rm = T)
+# mean_traits_species = num_traits_georef_wider %>% group_by(AccSpeciesID, AccSpeciesName) %>% summarise_at(2:21, mean , na.rm = T)
 
-write.csv(mean_traits_species, "mean_traits_species.csv", row.names = F)
+# write.csv(mean_traits_species, "mean_traits_species.csv", row.names = F)
 
