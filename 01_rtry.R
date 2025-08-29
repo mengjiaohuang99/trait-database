@@ -2,13 +2,11 @@
 library(rtry)
 library(tidyverse)
 
-setwd("D:/RECODYN_Pro/哈维性状/TRY database/31423_27022024092721")
-
 #import TRY data
 
 #datasets released from TRY are in a long-table format, where the traits are defined in the columns TraitID and TraitName. 
 #Ancillary data are defined in the columns DataID and DataName, which also provide additional information for the traits.
-TRYdata1 <- rtry_import('31423.txt')
+TRYdata1 <- rtry_import('data/31423.txt')
 View(TRYdata1)
 
 #Explore the imported data
@@ -58,8 +56,8 @@ unique(tmp_unfiltered$OrigValueStr)
 # 1. DataID equals to 413
 # 2. OrigValueStr equals to "juvenile" ect.
 workdata <- rtry_exclude(workdata, 
-                         (DataID %in% 413) & (OrigValueStr %in% c("juvenile", "seedlings", "Juvenile","immature", "juvenile, 11-14 weeks")), 
-                         baseOn = ObservationID)
+                         (DataID %in% 413) & (OrigValueStr %in% c("juvenile", "seedlings", "Juvenile","immature", 
+                                                                  "juvenile, 11-14 weeks")), baseOn = ObservationID)
 #check again
 # Select the rows where DataID is 413, i.e. the data containing the plant development status
 # Then explore the unique values of the OrigValueStr within the selected data
@@ -205,7 +203,7 @@ num_traits_georef_long <- num_traits_georef_wider %>%
   pivot_longer(cols = "14_Leaf nitrogen (N) content per leaf dry mass_mg/g":"3086_Leaf area per leaf dry mass (specific leaf area, SLA or 1/LMA) petiole, rhachis and midrib excluded_mm2 mg-1", 
                names_to = "TraitName", values_to = "StdValue") %>% drop_na(StdValue)
 
-write.csv(num_traits_georef_long, "indi.trait_longform.csv", row.names = F)
+write.csv(num_traits_georef_long, "data/indi.trait_longform.csv", row.names = F)
 
 #11 Export preprocessed TRY data
 # Export the data into a CSV file
